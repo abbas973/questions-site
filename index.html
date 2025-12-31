@@ -2,7 +2,7 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>Hello Kitty 💖</title>
+<title>موقع أسئلة</title>
 
 <style>
 body {
@@ -27,36 +27,37 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* قلوب ونجوم */
-.floating {
+/* صور متحركة بالخلفية */
+.bg-float {
     position: fixed;
-    bottom: -30px;
-    animation: floatUp 7s linear forwards;
+    bottom: -120px;
+    opacity: 0.6;
+    animation: floatUp 18s linear forwards;
     pointer-events: none;
 }
 
 @keyframes floatUp {
     from {
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
+        transform: translateY(0) scale(0.8);
+        opacity: 0.7;
     }
     to {
-        transform: translateY(-120vh) rotate(360deg);
+        transform: translateY(-140vh) scale(1.2);
         opacity: 0;
     }
 }
 
 #start {
-    font-size: 30px;
+    font-size: 28px;
     font-weight: bold;
-    animation: glow 1.5s infinite;
-    text-shadow: 0 0 15px #fff;
+    animation: pulse 1.5s infinite;
+    text-shadow: 0 0 15px rgba(255,255,255,0.8);
 }
 
-@keyframes glow {
-    0% { opacity: 0.6; }
+@keyframes pulse {
+    0% { opacity: 0.5; }
     50% { opacity: 1; }
-    100% { opacity: 0.6; }
+    100% { opacity: 0.5; }
 }
 
 #box {
@@ -71,15 +72,11 @@ body {
 }
 
 @keyframes pop {
-    from { transform: scale(0.8); opacity: 0; }
+    from { transform: scale(0.85); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
 
-h2 {
-    margin-bottom: 15px;
-}
-
-img {
+img.main {
     max-width: 100%;
     border-radius: 20px;
     margin-top: 10px;
@@ -114,28 +111,28 @@ button:hover {
 
 <body>
 
-<div id="start">🎀 اضغط لبدء عالم Hello Kitty 🎀</div>
+<div id="start">اضغط على الشاشة للبدء</div>
 
 <div id="box">
     <h2 id="text"></h2>
-    <img id="image">
+    <img id="image" class="main">
     <br>
-    <button onclick="next()">التالي 💖</button>
+    <button onclick="next()">التالي</button>
 </div>
 
 <script>
 const steps = [
     {
-        text: "🎀 مرحباً بك في عالم Hello Kitty 🎀",
-        img: "https://upload.wikimedia.org/wikipedia/en/0/05/Hello_Kitty_character_portrait.png"
+        text: "هل تحب البرمجة؟",
+        img: "https://via.placeholder.com/400"
     },
     {
-        text: "💖 هل تحب البرمجة مثل Hello Kitty؟",
-        img: "https://i.imgur.com/zYIlgBl.png"
+        text: "هل تفضل المواقع أم التطبيقات؟",
+        img: "https://via.placeholder.com/400/ff4f9a"
     },
     {
-        text: "✨ شكراً لأنك دخلت عالمنا ✨",
-        img: "https://i.imgur.com/f1Qp5K7.png"
+        text: "شكراً لمشاركتك ✨",
+        img: "https://via.placeholder.com/400/00ffcc"
     }
 ];
 
@@ -160,16 +157,22 @@ function next() {
     }
 }
 
-/* توليد قلوب ونجوم */
+/* صور متحركة بالخلفية */
+const bgImages = [
+    "https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif",
+    "https://media.giphy.com/media/l0HlNaQ6gWfllcjDO/giphy.gif",
+    "https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif"
+];
+
 setInterval(() => {
-    const el = document.createElement("div");
-    el.className = "floating";
-    el.innerHTML = Math.random() > 0.5 ? "💖" : "⭐";
-    el.style.left = Math.random() * 100 + "vw";
-    el.style.fontSize = (16 + Math.random() * 24) + "px";
-    document.body.appendChild(el);
-    setTimeout(() => el.remove(), 7000);
-}, 250);
+    const img = document.createElement("img");
+    img.className = "bg-float";
+    img.src = bgImages[Math.floor(Math.random() * bgImages.length)];
+    img.style.left = Math.random() * 100 + "vw";
+    img.style.width = (60 + Math.random() * 80) + "px";
+    document.body.appendChild(img);
+    setTimeout(() => img.remove(), 18000);
+}, 2000);
 </script>
 
 </body>
