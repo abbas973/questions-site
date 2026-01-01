@@ -9,17 +9,6 @@ body {
     margin: 0;
     font-family: Tahoma, Arial;
     background: #000;
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-<meta charset="UTF-8">
-<title>💖 أسئلة حب</title>
-
-<style>
-body {
-    margin: 0;
-    font-family: Tahoma, Arial;
-    background: #000;
     color: white;
     display: flex;
     align-items: center;
@@ -29,7 +18,7 @@ body {
     overflow: hidden;
 }
 
-/* قلوب متحركة */
+/* قلوب */
 .heart {
     position: fixed;
     width: 18px;
@@ -40,7 +29,6 @@ body {
     opacity: 0.7;
     pointer-events: none;
 }
-
 .heart::before,
 .heart::after {
     content: "";
@@ -50,35 +38,21 @@ body {
     background: #ff0033;
     border-radius: 50%;
 }
-
 .heart::before { top: -9px; left: 0; }
 .heart::after { left: -9px; top: 0; }
 
 @keyframes float {
-    from { transform: translateY(100vh) rotate(45deg) scale(0.7); opacity: 0.8; }
-    to   { transform: translateY(-120vh) rotate(45deg) scale(1.3); opacity: 0; }
+    from { transform: translateY(100vh) rotate(45deg); opacity: 0.8; }
+    to   { transform: translateY(-120vh) rotate(45deg); opacity: 0; }
 }
 
-/* صندوق */
+/* الصندوق */
 #box {
-    display: none;
-    max-width: 90%;
     background: rgba(0,0,0,0.6);
     padding: 25px;
     border-radius: 25px;
-    backdrop-filter: blur(10px);
     box-shadow: 0 0 40px rgba(255,0,80,0.4);
-    transition: 0.6s ease;
-}
-
-/* انتقال */
-.fade-out {
-    opacity: 0;
-    transform: scale(0.85);
-}
-.fade-in {
-    opacity: 1;
-    transform: scale(1);
+    max-width: 90%;
 }
 
 /* نص */
@@ -92,21 +66,14 @@ img.main {
     max-width: 100%;
     border-radius: 20px;
     margin-top: 15px;
-    opacity: 0;
-    animation: imgIn 0.8s forwards;
 }
 
-@keyframes imgIn {
-    from { transform: scale(0.9); opacity: 0; }
-    to   { transform: scale(1); opacity: 1; }
-}
-
+/* أزرار */
 .buttons {
     margin-top: 20px;
 }
-
 button {
-    margin: 10px;
+    margin: 8px;
     padding: 12px 35px;
     font-size: 16px;
     border: none;
@@ -114,242 +81,20 @@ button {
     cursor: pointer;
     background: linear-gradient(135deg, #ff0033, #ff4d6d);
     color: white;
-    box-shadow: 0 10px 30px rgba(255,0,80,0.7);
-    transition: 0.3s;
 }
-
 button:hover {
     transform: scale(1.1);
 }
 
+/* تنبيه */
 .alert {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(0,0,0,0.9);
-    padding: 25px 35px;
-    border-radius: 20px;
-    font-size: 18px;
-    box-shadow: 0 0 40px rgba(255,0,80,0.8);
-    z-index: 999;
-}
-</style>
-</head>
-
-<body>
-
-<div id="box" class="fade-in">
-    <h2 id="text"></h2>
-    <img id="image" class="main">
-    <div class="buttons" id="buttons"></div>
-</div>
-
-<script>
-/* القلوب */
-setInterval(() => {
-    const h = document.createElement("div");
-    h.className = "heart";
-    h.style.left = Math.random() * 100 + "vw";
-    h.style.animationDuration = (10 + Math.random() * 10) + "s";
-    document.body.appendChild(h);
-    setTimeout(() => h.remove(), 20000);
-}, 600);
-
-/* الأسئلة */
-const steps = [
-{ text: "انتِ شهد؟", img: "https://via.placeholder.com/400/000000/ff0044?text=❤",
-  buttons: [{ label: "إي", next: true }] },
-
-{ text: "هلو شهد 😍", img: "https://via.placeholder.com/400/000000/ff0044?text=❤",
-  buttons: [{ label: "هلا بيك ❤️", next: true }] },
-
-{ text: "هل تحبيني؟ 😘", img: "https://via.placeholder.com/400/000000/ff0044?text=❤",
-  buttons: [{ label: "إي", alert: true }, { label: "لا", next: true }] },
-
-{ text: "ليش 😡", img: "https://via.placeholder.com/400/000000/ff0044?text=❤",
-  buttons: [{ label: "أحسن ❤️", next: true }] },
-
-{ text: "انتِ متأكدة ماتحبيني؟", img: "https://via.placeholder.com/400/000000/ff0044?text=❤",
-  buttons: [{ label: "إي", next: true }] },
-
-{ text: "عادي… لأن أدري تحبيني 😍😍😍",
-  img: "https://via.placeholder.com/400/000000/ff0044?text=❤",
-  buttons: [{ label: "شو انت واثق من نفسك؟ ولي ولي", next: false }] }
-
-{ text: "عادي… لأن أدري تحبيني 😍😍😍",
-  img: "https://via.placeholder.com/400/000000/ff0044?text=❤", }] }
-];
-
-let index = 0;
-const box = document.getElementById("box");
-box.style.display = "block";
-show();
-
-/* أنيميشن كتابة */
-function typeText(el, text, speed = 60) {
-    el.innerHTML = "";
-    let i = 0;
-    const interval = setInterval(() => {
-        el.innerHTML += text[i];
-        i++;
-        if (i >= text.length) clearInterval(interval);
-    }, speed);
-}
-
-function show() {
-    box.classList.remove("fade-out");
-    box.classList.add("fade-in");
-
-    const step = steps[index];
-    const textEl = document.getElementById("text");
-    const imgEl = document.getElementById("image");
-
-    typeText(textEl, step.text);
-    imgEl.src = step.img;
-
-    const btnBox = document.getElementById("buttons");
-    btnBox.innerHTML = "";
-
-    step.buttons.forEach(btn => {
-        const b = document.createElement("button");
-        b.innerText = btn.label;
-
-        b.onclick = () => {
-            if (btn.alert) {
-                const a = document.createElement("div");
-                a.className = "alert";
-                a.innerText = "نعتذر ما تكدر تختار إي 😔\nاضغط لا";
-                document.body.appendChild(a);
-                setTimeout(() => a.remove(), 2500);
-                return;
-            }
-
-            if (btn.next && index < steps.length - 1) {
-                box.classList.add("fade-out");
-                setTimeout(() => {
-                    index++;
-                    show();
-                }, 600);
-            }
-        };
-        btnBox.appendChild(b);
-    });
-}
-</script>
-
-</body>
-</html>
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    text-align: center;
-    overflow: hidden;
-}
-
-/* قلوب متحركة */
-.heart {
-    position: fixed;
-    width: 18px;
-    height: 18px;
-    background: #ff0033;
-    transform: rotate(45deg);
-    animation: float 14s linear infinite;
-    opacity: 0.7;
-    pointer-events: none;
-}
-
-.heart::before,
-.heart::after {
-    content: "";
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    background: #ff0033;
-    border-radius: 50%;
-}
-
-.heart::before { top: -9px; left: 0; }
-.heart::after { left: -9px; top: 0; }
-
-@keyframes float {
-    from { transform: translateY(100vh) rotate(45deg) scale(0.7); opacity: 0.8; }
-    to   { transform: translateY(-120vh) rotate(45deg) scale(1.3); opacity: 0; }
-}
-
-/* صندوق */
-#box {
-    display: none;
-    max-width: 90%;
-    background: rgba(0,0,0,0.6);
+    background: black;
     padding: 25px;
-    border-radius: 25px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 0 40px rgba(255,0,80,0.4);
-    transition: 0.6s ease;
-}
-
-/* انتقال */
-.fade-out {
-    opacity: 0;
-    transform: scale(0.85);
-}
-.fade-in {
-    opacity: 1;
-    transform: scale(1);
-}
-
-/* نص */
-#text {
-    min-height: 60px;
-    font-size: 22px;
-}
-
-/* صورة */
-img.main {
-    max-width: 100%;
     border-radius: 20px;
-    margin-top: 15px;
-    opacity: 0;
-    animation: imgIn 0.8s forwards;
-}
-
-@keyframes imgIn {
-    from { transform: scale(0.9); opacity: 0; }
-    to   { transform: scale(1); opacity: 1; }
-}
-
-.buttons {
-    margin-top: 20px;
-}
-
-button {
-    margin: 10px;
-    padding: 12px 35px;
-    font-size: 16px;
-    border: none;
-    border-radius: 40px;
-    cursor: pointer;
-    background: linear-gradient(135deg, #ff0033, #ff4d6d);
-    color: white;
-    box-shadow: 0 10px 30px rgba(255,0,80,0.7);
-    transition: 0.3s;
-}
-
-button:hover {
-    transform: scale(1.1);
-}
-
-.alert {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0,0,0,0.9);
-    padding: 25px 35px;
-    border-radius: 20px;
-    font-size: 18px;
     box-shadow: 0 0 40px rgba(255,0,80,0.8);
     z-index: 999;
 }
@@ -358,14 +103,14 @@ button:hover {
 
 <body>
 
-<div id="box" class="fade-in">
+<div id="box">
     <h2 id="text"></h2>
     <img id="image" class="main">
     <div class="buttons" id="buttons"></div>
 </div>
 
 <script>
-/* القلوب */
+// قلوب
 setInterval(() => {
     const h = document.createElement("div");
     h.className = "heart";
@@ -375,74 +120,83 @@ setInterval(() => {
     setTimeout(() => h.remove(), 20000);
 }, 600);
 
-/* الأسئلة */
+// الخطوات
 const steps = [
-{ text: "انتِ شهد؟", img: "https://via.placeholder.com/400/000000/ff0044?text=❤",
-  buttons: [{ label: "إي", next: true }] },
-
-{ text: "هلو شهد 😍", img: "https://via.placeholder.com/400/000000/ff0044?text=❤",
-  buttons: [{ label: "هلا بيك ❤️", next: true }] },
-
-{ text: "هل تحبيني؟ 😘", img: "https://via.placeholder.com/400/000000/ff0044?text=❤",
-  buttons: [{ label: "إي", alert: true }, { label: "لا", next: true }] },
-
-{ text: "ليش 😡", img: "https://via.placeholder.com/400/000000/ff0044?text=❤",
-  buttons: [{ label: "أحسن ❤️", next: true }] },
-
-{ text: "انتِ متأكدة ماتحبيني؟", img: "https://via.placeholder.com/400/000000/ff0044?text=❤",
-  buttons: [{ label: "إي", next: true }] },
-
-{ text: "عادي… لأن أدري تحبيني 😍😍😍",
-  img: "https://via.placeholder.com/400/000000/ff0044?text=❤",
-  buttons: [{ label: "تمام؟ ❤️", next: false }] }
+{
+    text: "انتِ شهد؟",
+    img: "https://via.placeholder.com/400/000000/ff0044?text=❤",
+    buttons: [{ label: "إي", next: true }]
+},
+{
+    text: "هلو شهد 😍",
+    img: "https://via.placeholder.com/400/000000/ff0044?text=❤",
+    buttons: [{ label: "هلا بيك ❤️", next: true }]
+},
+{
+    text: "هل تحبيني؟ 😘",
+    img: "https://via.placeholder.com/400/000000/ff0044?text=❤",
+    buttons: [
+        { label: "إي", alert: true },
+        { label: "لا", next: true }
+    ]
+},
+{
+    text: "ليش 😡",
+    img: "https://via.placeholder.com/400/000000/ff0044?text=❤",
+    buttons: [{ label: "أحسن ❤️", next: true }]
+},
+{
+    text: "انتِ متأكدة ماتحبيني؟",
+    img: "https://via.placeholder.com/400/000000/ff0044?text=❤",
+    buttons: [{ label: "إي", next: true }]
+},
+{
+    text: "عادي… لأن أدري تحبيني 😍😍😍",
+    img: "https://via.placeholder.com/400/000000/ff0044?text=❤",
+    buttons: [{ label: "شو انت واثق من نفسك؟ ولي ولي" }]
+}
 ];
 
 let index = 0;
-const box = document.getElementById("box");
-box.style.display = "block";
 show();
 
-/* أنيميشن كتابة */
-function typeText(el, text, speed = 60) {
+function typeText(el, text) {
     el.innerHTML = "";
     let i = 0;
-    const interval = setInterval(() => {
-        el.innerHTML += text[i];
-        i++;
-        if (i >= text.length) clearInterval(interval);
-    }, speed);
+    const t = setInterval(() => {
+        el.innerHTML += text[i++];
+        if (i >= text.length) clearInterval(t);
+    }, 60);
 }
 
+function <script>
 function show() {
-    box.classList.remove("fade-out");
-    box.classList.add("fade-in");
-
     const step = steps[index];
     const textEl = document.getElementById("text");
     const imgEl = document.getElementById("image");
+    const btnBox = document.getElementById("buttons");
 
     typeText(textEl, step.text);
     imgEl.src = step.img;
-
-    const btnBox = document.getElementById("buttons");
     btnBox.innerHTML = "";
 
-    // أزرار الخطوة العادية
     step.buttons.forEach(btn => {
         const b = document.createElement("button");
         b.innerText = btn.label;
 
         b.onclick = () => {
-            // الزر "شو انت واثق من نفسك؟ ولي ولي"
-            if (b.innerText === "شو انت واثق من نفسك؟ ولي ولي") {
+
+            // زر "شو انت واثق من نفسك؟ ولي ولي"
+            if (btn.label === "شو انت واثق من نفسك؟ ولي ولي") {
                 const a = document.createElement("div");
                 a.className = "alert";
-                a.innerText = "آه! واضح إنك واثق من نفسك 😏💖";
+                a.innerText = "ها هيج صارت؟ باي باي.";
                 document.body.appendChild(a);
-                setTimeout(() => a.remove(), 4000);
+                setTimeout(() => a.remove(), 3500);
                 return;
             }
 
+            // زر منع "إي"
             if (btn.alert) {
                 const a = document.createElement("div");
                 a.className = "alert";
@@ -452,28 +206,23 @@ function show() {
                 return;
             }
 
+            // الانتقال الطبيعي
             if (btn.next && index < steps.length - 1) {
-                box.classList.add("fade-out");
-                setTimeout(() => {
-                    index++;
-                    show();
-                }, 600);
+                index++;
+                show();
             }
         };
+
         btnBox.appendChild(b);
     });
+}
 
-    // تأكد أن الزر موجود في كل خطوة
-    const extraButton = document.createElement("button");
-    extraButton.innerText = "شو انت واثق من نفسك؟ ولي ولي";
-    extraButton.onclick = () => {
-        const a = document.createElement("div");
-        a.className = "alert";
-        a.innerText = "آه! واضح إنك واثق من نفسك 😏💖";
-        document.body.appendChild(a);
-        setTimeout(() => a.remove(), 4000);
-    };
-    btnBox.appendChild(extraButton);
+function alertBox(msg) {
+    const a = document.createElement("div");
+    a.className = "alert";
+    a.innerText = msg;
+    document.body.appendChild(a);
+    setTimeout(() => a.remove(), 3000);
 }
 </script>
 
